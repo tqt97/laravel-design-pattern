@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Repositories\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+/*
+    Prefix the routes with repositories to avoid conflicts with the default routes
+*/
+Route::prefix('repositories')->group(function () {
+    // Add a new route to search for a product by name
+    Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
+
+    // create resource routes for products
+    Route::resource('products', ProductController::class);
+});
