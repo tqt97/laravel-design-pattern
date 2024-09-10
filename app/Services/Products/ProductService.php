@@ -2,8 +2,8 @@
 
 namespace App\Services\Products;
 
+use App\Events\ProductCreated;
 use App\Models\Product;
-use App\Repositories\Products\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 class ProductService
@@ -18,6 +18,7 @@ class ProductService
 
             // Gửi thông báo xác nhận
             // Notification::send($product->user, new ProductCreatedNotification($product));
+            event(new ProductCreated($product));
 
             DB::commit();
 
